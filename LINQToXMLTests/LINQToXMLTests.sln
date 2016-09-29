@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collections", "Collections\Collections.csproj", "{51AED02E-FD32-44C2-A749-E851005A0209}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LINQToXMLTests", "LINQToXMLTests\LINQToXMLTests.csproj", "{6962FE52-4F14-4AA4-90DB-5A467CC94B47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{51AED02E-FD32-44C2-A749-E851005A0209}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{51AED02E-FD32-44C2-A749-E851005A0209}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{51AED02E-FD32-44C2-A749-E851005A0209}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{51AED02E-FD32-44C2-A749-E851005A0209}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6962FE52-4F14-4AA4-90DB-5A467CC94B47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6962FE52-4F14-4AA4-90DB-5A467CC94B47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6962FE52-4F14-4AA4-90DB-5A467CC94B47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6962FE52-4F14-4AA4-90DB-5A467CC94B47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
