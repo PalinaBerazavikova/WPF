@@ -1,50 +1,48 @@
 ﻿using System;
 using System.Xml.Linq;
-using NUnit.Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.IO;
 
 namespace LINQToXMLTests
 {
-    [TestFixture]
+    [TestClass]
     public class TestOrdersSumMoreThanX
     {
-        public string FileName { get; set; } = string.Empty;
-        public XDocument Document { get; set; }
-        [SetUp]
-        public void BeforeMethod()
+        [TestMethod]
+        public void TesetOrdersSumX1()
         {
-            this.FileName = $@"{Environment.CurrentDirectory}\Customers.xml";
-            this.Document = XDocument.Load(this.FileName);
+            TestOrdersSum(150000);
         }
-        [TearDown]
-        public void AfterMethod()
+        [TestMethod]
+        public void TesetOrdersSumX2()
         {
-            this.FileName = null;
-            this.Document = null;
+            TestOrdersSum(10000);
+        }
+        [TestMethod]
+        public void TesetOrdersSumX3()
+        {
+            TestOrdersSum(100000);
         }
 
 
-        [TestCase(7000, 7000)]
-        [TestCase(9000, 9000)]
-        [TestCase(20000, 123)]
-        public void TestMethod(double n, double exp)
+        public void TestOrdersSum(int n)
         {
-            var a = this.Document.Elements().Elements().Select(x => new
+            string FileName = $@"{Environment.CurrentDirectory}\Customers.xml";
+            XDocument Document = XDocument.Load(FileName);
+            var a = Document.Elements().Elements().Select(x => new
             {
                 name = x.Element("name").Value,
                 sum = x.Elements("orders").Elements().Elements("total").Select(y => double.Parse(y.Value.Replace(".", ","))).Sum(),
 
             }).Where(x => x.sum > n).ToList();
-            using (StreamWriter file = new StreamWriter($@"{Environment.CurrentDirectory}\Output.txt"))
+            using (StreamWriter file = new StreamWriter($@"{Environment.CurrentDirectory}\CustomersWithOrderMoreThan{n}.txt"))
             {
-                file.WriteLine($"Customers with summary order more than{n}");
                 foreach (var f in a)
                 {
                     file.WriteLine(f.name);
                 }
             }
-            Assert.AreEqual(n, exp);
         }
     }
 }
