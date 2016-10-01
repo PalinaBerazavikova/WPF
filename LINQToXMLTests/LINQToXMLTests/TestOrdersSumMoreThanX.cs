@@ -1,34 +1,52 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Xml.Linq;
+using NUnit.Framework;
+using System.Linq;
+using System.IO;
 
 namespace LINQToXMLTests
 {
-    [TestClass]
-    public class UnitTest1
+    [TestFixture]
+    public class TestOrdersSumMoreThanX
     {
-        [TestMethod]
-        public void TestMethod()
+        public string FileName { get; set; } = string.Empty;
+        public XDocument Document { get; set; }
+        [SetUp]
+        public void BeforeMethod()
         {
-            //задаем путь к нашему рабочему файлу XML
-            string fileName = "RD. HW - AT Lab#. 05 - Customers.xml";
-            //читаем данные из файла
-            XDocument doc = XDocument.Load(fileName);
-            //проходим по каждому элементу в найшей library
-            //(этот элемент сразу доступен через свойство doc.Root)
-            foreach (XElement el in doc.Root.Elements())
+            this.FileName = $@"{Environment.CurrentDirectory}\Customers.xml";
+            this.Document = XDocument.Load(this.FileName);
+        }
+        [TearDown]
+        public void AfterMethod()
+        {
+            this.FileName = null;
+            this.Document = null;
+        }
+
+
+        [TestCase(7000, 7000)]
+        [TestCase(9000, 9000)]
+        [TestCase(20000, 123)]
+        public void TestMethod(double n, double exp)
+        {
+            var a = this.Document.Elements().Elements().Select(x => new
             {
-                //Выводим имя элемента и значение аттрибута id
-                Console.WriteLine("{0} {1}", el.Name, el.Attribute("id").Value);
-                Console.WriteLine("  Attributes:");
-                //выводим в цикле все аттрибуты, заодно смотрим как они себя преобразуют в строку
-                foreach (XAttribute attr in el.Attributes())
-                    Console.WriteLine("    {0}", attr);
-                Console.WriteLine("  Elements:");
-                //выводим в цикле названия всех дочерних элементов и их значения
-                foreach (XElement element in el.Elements())
-                    Console.WriteLine("    {0}: {1}", element.Name, element.Value);
+                name = x.Element("name").Value,
+                sum = x.Elements("orders").Elements().Elements("total").Select(y => double.Parse(y.Value.Replace(".", ","))).Sum(),
+
+            }).Where(x => x.sum > n).ToList();
+            using (StreamWriter file = new StreamWriter($@"{Environment.CurrentDirectory}\Output.txt"))
+            {
+                file.WriteLine($"Customers with summary order more than{n}");
+                foreach (var f in a)
+                {
+                    file.WriteLine(f.name);
+                }
             }
+            Assert.AreEqual(n, exp);
         }
     }
 }
+
+
