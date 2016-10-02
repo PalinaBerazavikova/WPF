@@ -10,17 +10,17 @@ namespace LINQToXMLTests
     public class TestOrdersSumMoreThanX
     {
         [TestMethod]
-        public void TesetOrdersSumX1()
+        public void TestOrdersSumX1()
         {
             TestOrdersSum(150000);
         }
         [TestMethod]
-        public void TesetOrdersSumX2()
+        public void TestOrdersSumX2()
         {
             TestOrdersSum(10000);
         }
         [TestMethod]
-        public void TesetOrdersSumX3()
+        public void TestOrdersSumX3()
         {
             TestOrdersSum(100000);
         }
