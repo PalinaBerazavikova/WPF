@@ -61,7 +61,10 @@
     <Compile Include="TestOrdersSumMoreThanX.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestGroupBy.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="FirstDate.cs" />
+    <Compile Include="TestMaxOrderMoreThanX.cs" />
+    <Compile Include="Sorting.cs" />
+    <Compile Include="TestSomethingWrong.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

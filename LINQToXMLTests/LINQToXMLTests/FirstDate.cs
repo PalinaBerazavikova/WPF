@@ -1,13 +1,16 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Xml.Linq;
+using System.Linq;
+using System.IO;
 
 namespace LINQToXMLTests
 {
     [TestClass]
-    public class UnitTest1
+    public class FirstDate
     {
         [TestMethod]
-        public void TestMethod1()
+        public void GetFirstDate()
         {
             string FileName = $@"{Environment.CurrentDirectory}\Customers.xml";
             XDocument Document = XDocument.Load(FileName);
@@ -16,10 +19,16 @@ namespace LINQToXMLTests
                 name = x.Element("name").Value,
                 date = x.Elements("orders").Elements().Elements("orderdate").Select(y => DateTime.Parse(y.Value)).Min(),
             }).ToList();
-            foreach (var b in a)
+            using (StreamWriter file = new StreamWriter($@"{Environment.CurrentDirectory}\CustomersFirstDate.txt"))
             {
-                Console.WriteLine(b.name + " date " + b.date);
+                foreach (var b in a)
+
+                {
+                    file.WriteLine($"{b.name} { b.date:MM:yyyy}");
+                }
             }
         }
+
     }
 }
+
