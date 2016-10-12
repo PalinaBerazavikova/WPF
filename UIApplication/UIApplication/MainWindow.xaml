@@ -22,9 +22,10 @@
         <ListBox x:Name="listBoxTypesFields" HorizontalAlignment="Left" Height="66" VerticalAlignment="Top" Width="213" Margin="641,167,0,0" SelectionChanged="listBox_SelectionChanged"/>
         <Label x:Name="fields" Content="Fields" HorizontalAlignment="Left" Margin="728,238,0,0" VerticalAlignment="Top" Width="54" Height="35" RenderTransformOrigin="3.154,0.429"/>
         <ListBox x:Name="listBoxTypesMethods" HorizontalAlignment="Left" Height="66" VerticalAlignment="Top" Width="213" Margin="641,278,0,0" SelectionChanged="listBox_SelectionChanged"/>
-        <CheckBox x:Name="checkBoxProperty" Content="Properties" HorizontalAlignment="Left" Margin="641,18,0,0" VerticalAlignment="Top" IsChecked="True" Unchecked="checkBoxProperty_Unchecked" Checked="checkBoxProperty_Checked" />
-        <CheckBox x:Name="checkBoxMethod" Content="Methods" HorizontalAlignment="Left" Margin="787,18,0,0" VerticalAlignment="Top" IsChecked="True" Unchecked="checkBoxMethod_Unchecked" Checked="checkBoxMethod_Checked" />
-        <CheckBox x:Name="checkBoxFields" Content="Fields" HorizontalAlignment="Left" Margin="728,18,0,0" VerticalAlignment="Top" IsChecked="True" Unchecked="checkBoxFields_Unchecked" Checked="checkBoxFields_Checked" />
+        <CheckBox x:Name="checkBoxProperty" Content="Properties" HorizontalAlignment="Left" Margin="641,18,0,0" VerticalAlignment="Top" IsChecked="False" Unchecked="checkBoxProperty_Unchecked" Checked="checkBoxProperty_Checked" />
+        <CheckBox x:Name="checkBoxMethod" Content="Methods" HorizontalAlignment="Left" Margin="787,18,0,0" VerticalAlignment="Top" IsChecked="False" Unchecked="checkBoxMethod_Unchecked" Checked="checkBoxMethod_Checked" />
+        <CheckBox x:Name="checkBoxFields" Content="Fields" HorizontalAlignment="Left" Margin="728,18,0,0" VerticalAlignment="Top" IsChecked="False" Unchecked="checkBoxFields_Unchecked" Checked="checkBoxFields_Checked" />
+        <CheckBox x:Name="checkBoxAll" Content="All" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="707,38,0,0" IsChecked="True" Checked="checkBoxAll_Checked" Unchecked="checkBoxAll_Unchecked"/>
 
     </Grid>
 </Window>

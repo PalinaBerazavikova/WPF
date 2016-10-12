@@ -128,6 +128,9 @@ namespace UIApplication
 
         private void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            listBoxTypesMethods.Items.Clear();
+            listBoxTypesFields.Items.Clear();
+            listBoxTypesProperty.Items.Clear();
             try
             {
                 if (listBox.SelectedItem != null)
@@ -153,17 +156,17 @@ namespace UIApplication
             if (listBoxTypes.SelectedItem != null)
             {
                 var type = Lib.GetTypes().Where(t => t.FullName == listBoxTypes.SelectedItem.ToString()).FirstOrDefault();
-                if (checkBoxMethod.IsChecked == true)
+                if (checkBoxMethod.IsChecked == true || checkBoxAll.IsChecked == true)
                 {
                     var ListTypeMethodsName = type.GetMethods().Select(m => m.Name).ToList();
                     SetToListBox(ListTypeMethodsName, listBoxTypesMethods);
                 }
-                if (checkBoxFields.IsChecked == true)
+                if (checkBoxFields.IsChecked == true || checkBoxAll.IsChecked == true)
                 {
                     var ListTypeFieldsName = type.GetFields().Select(f => f.Name).ToList();
                     SetToListBox(ListTypeFieldsName, listBoxTypesFields);
                 }
-                if (checkBoxProperty.IsChecked == true)
+                if (checkBoxProperty.IsChecked == true || checkBoxAll.IsChecked == true)
                 {
                     var ListTypePropertiesName = type.GetProperties().Select(p => p.Name).ToList();
                     SetToListBox(ListTypePropertiesName, listBoxTypesProperty);
@@ -201,16 +204,19 @@ namespace UIApplication
         }
         private void checkBoxProperty_Checked(object sender, RoutedEventArgs e)
         {
+            checkBoxAll.IsChecked = false;
             SetItemsToTextBoxes();
         }
 
         private void checkBoxFields_Checked(object sender, RoutedEventArgs e)
         {
+            checkBoxAll.IsChecked = false;
             SetItemsToTextBoxes();
         }
 
         private void checkBoxMethod_Checked(object sender, RoutedEventArgs e)
         {
+            checkBoxAll.IsChecked = false;
             SetItemsToTextBoxes();
         }
         private void checkBoxProperty_Unchecked(object sender, RoutedEventArgs e)
@@ -227,6 +233,20 @@ namespace UIApplication
         {
             listBoxTypesMethods.Items.Clear();
 
+        }
+
+        private void checkBoxAll_Checked(object sender, RoutedEventArgs e)
+        {
+            checkBoxFields.IsChecked = false;
+            checkBoxMethod.IsChecked = false;
+            checkBoxProperty.IsChecked = false;
+            SetItemsToTextBoxes();
+        }
+        private void checkBoxAll_Unchecked(object sender, RoutedEventArgs e)
+        {
+            listBoxTypesMethods.Items.Clear();
+            listBoxTypesFields.Items.Clear();
+            listBoxTypesProperty.Items.Clear();
         }
     }
 }
