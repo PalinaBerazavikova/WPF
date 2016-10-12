@@ -2,22 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Windows.Forms;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.IO;
-using System.Drawing;
-using System.Globalization;
 using System.Reflection;
 
 namespace UIApplication
@@ -50,8 +38,8 @@ namespace UIApplication
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            var hwnd = new WindowInteropHelper(this).Handle;
-            SetWindowLong(hwnd, GWL_STYLE, GetWindowLong(hwnd, GWL_STYLE) & ~WS_SYSMENU);
+            var windowInterpopHelper = new WindowInteropHelper(this).Handle;
+            SetWindowLong(windowInterpopHelper, GWL_STYLE, GetWindowLong(windowInterpopHelper, GWL_STYLE) & ~WS_SYSMENU);
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -63,8 +51,7 @@ namespace UIApplication
         {
             var dialog = new System.Windows.Forms.FolderBrowserDialog();
             System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-            DirectoryPath.Width = 5 * dialog.SelectedPath.Length;
-            DirectoryPath.Text = dialog.SelectedPath;
+            DirectoryPathTextBox.Text = dialog.SelectedPath;
         }
         private void CenterWindowScreen()
         {
@@ -76,14 +63,11 @@ namespace UIApplication
             this.Top = (screenHeight / 2) - (windowHeight / 2);
         }
 
-
-
-        private bool IsFilesFounded()
+        private bool IsDirectoryValid()
         {
-            string[] files = { };
             try
             {
-                files = Directory.GetFiles(this.SelectedPath);
+                Directory.GetFiles(this.SelectedPath);
             }
             catch (DirectoryNotFoundException e)
             {
@@ -100,37 +84,46 @@ namespace UIApplication
                 MessageBoxResult result = System.Windows.MessageBox.Show("Not supported directory!");
                 return false;
             }
-            
-            foreach (var file in files)
+            return true;
+        }
+
+
+        private void FindFiles()
+        {
+            foreach (var file in Directory.GetFiles(this.SelectedPath))
             {
                 if (System.IO.Path.GetExtension(file).ToLower().Equals(".dll"))
                 {
                     this.Files.Add(System.IO.Path.GetFileName(file));
                 }
             }
-            return true;
-
+            SetToListBox(this.Files, listBox);
         }
-
-        private void OpenButton_Click(object sender, RoutedEventArgs e)
+        private void ClearBoxes()
+        {
+            listBoxTypes.Items.Clear();
+            listBox.Items.Clear();
+            listBoxTypesMethods.Items.Clear();
+            listBoxTypesFields.Items.Clear();
+            listBoxTypesProperty.Items.Clear();
+        }
+        private void ShowButton_Click(object sender, RoutedEventArgs e)
         {
             this.Files.Clear();
-            listBoxTypes.Items.Clear();
-            this.SelectedPath = DirectoryPath.Text;
-            listBox.Items.Clear();
-            if (IsFilesFounded())
+            ClearBoxes();
+            this.SelectedPath = DirectoryPathTextBox.Text;
+            if (IsDirectoryValid())
             {
-                SetFilesToList();
+                FindFiles();
             }
         }
 
-        public void SetFilesToList()
+        public void SetToListBox(List<string> list,ListBox listBox)
         {
-            foreach (var file in this.Files)
+            foreach (var value in list)
             {
-                listBox.Items.Add(file);
+                listBox.Items.Add(value);
             }
-
         }
 
         private void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -143,19 +136,16 @@ namespace UIApplication
                     PathToSelectedType = System.IO.Path.Combine(this.SelectedPath, listBox.SelectedItem.ToString());
                     Assembly lib = Assembly.LoadFile(PathToSelectedType);
                     ListOfTypes = lib.GetTypes().Select(t => t.FullName).ToList();
-                    foreach (var type in ListOfTypes)
-                    {
-                        this.listBoxTypes.Items.Add(type);
-                    }
+                    SetToListBox(ListOfTypes, listBoxTypes);
                 }
             }
-            catch (BadImageFormatException bife)
+            catch (BadImageFormatException)
             {
-                MessageBoxResult result = System.Windows.MessageBox.Show("File is empty!");
+                System.Windows.MessageBox.Show("File is empty!");
             }
 
         }
-        private void ShowItems()
+        private void SetItemsToTextBoxes()
         {
             listBoxTypesMethods.Items.Clear();
             listBoxTypesFields.Items.Clear();
@@ -166,29 +156,21 @@ namespace UIApplication
                 if (checkBoxMethod.IsChecked == true)
                 {
                     var ListTypeMethodsName = type.GetMethods().Select(m => m.Name).ToList();
-                    foreach (var method in ListTypeMethodsName)
-                    {
-                        this.listBoxTypesMethods.Items.Add(method);
-                    }
+                    SetToListBox(ListTypeMethodsName, listBoxTypesMethods);
                 }
                 if (checkBoxFields.IsChecked == true)
                 {
                     var ListTypeFieldsName = type.GetFields().Select(f => f.Name).ToList();
-                    foreach (var field in ListTypeFieldsName)
-                    {
-                        this.listBoxTypesFields.Items.Add(field);
-                    }
+                    SetToListBox(ListTypeFieldsName, listBoxTypesFields);
                 }
                 if (checkBoxProperty.IsChecked == true)
                 {
                     var ListTypePropertiesName = type.GetProperties().Select(p => p.Name).ToList();
-                    foreach (var property in ListTypePropertiesName)
-                    {
-                        this.listBoxTypesProperty.Items.Add(property);
-                    }
+                    SetToListBox(ListTypePropertiesName, listBoxTypesProperty);
+
                 }
             }
-            
+
         }
         private void listBoxTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -198,7 +180,7 @@ namespace UIApplication
                 listBoxTypesFields.Items.Clear();
                 listBoxTypesProperty.Items.Clear();
                 Lib = Assembly.LoadFile(PathToSelectedType);
-                ShowItems();
+                SetItemsToTextBoxes();
             }
 
         }
@@ -211,24 +193,25 @@ namespace UIApplication
                 {
                     list.Items.Add(value);
                 }
-            }else
+            }
+            else
             {
                 list.Items.Clear();
             }
         }
         private void checkBoxProperty_Checked(object sender, RoutedEventArgs e)
         {
-            ShowItems();
+            SetItemsToTextBoxes();
         }
 
         private void checkBoxFields_Checked(object sender, RoutedEventArgs e)
         {
-            ShowItems();
+            SetItemsToTextBoxes();
         }
 
         private void checkBoxMethod_Checked(object sender, RoutedEventArgs e)
         {
-            ShowItems();
+            SetItemsToTextBoxes();
         }
         private void checkBoxProperty_Unchecked(object sender, RoutedEventArgs e)
         {
