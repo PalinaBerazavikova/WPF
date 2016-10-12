@@ -22,11 +22,7 @@ namespace UIApplication
         private List<string> Files = new List<string>();
         private List<string> ListOfTypes = new List<string>();
         Assembly Lib;
-        [DllImport("user32.dll", SetLastError = true)]
-        private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
 
-        [DllImport("user32.dll")]
-        private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
 
 
@@ -39,7 +35,7 @@ namespace UIApplication
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             var windowInterpopHelper = new WindowInteropHelper(this).Handle;
-            SetWindowLong(windowInterpopHelper, GWL_STYLE, GetWindowLong(windowInterpopHelper, GWL_STYLE) & ~WS_SYSMENU);
+            NativeMethods.SetWindowLong(windowInterpopHelper, GWL_STYLE, NativeMethods.GetWindowLong(windowInterpopHelper, GWL_STYLE) & ~WS_SYSMENU);
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
@@ -69,17 +65,17 @@ namespace UIApplication
             {
                 Directory.GetFiles(this.SelectedPath);
             }
-            catch (DirectoryNotFoundException e)
+            catch (DirectoryNotFoundException)
             {
                 MessageBoxResult result = System.Windows.MessageBox.Show("This directory doesnt exist!");
                 return false;
             }
-            catch (System.ArgumentException e)
+            catch (System.ArgumentException)
             {
                 MessageBoxResult result = System.Windows.MessageBox.Show("Please, enter directory!");
                 return false;
             }
-            catch (System.NotSupportedException e)
+            catch (System.NotSupportedException)
             {
                 MessageBoxResult result = System.Windows.MessageBox.Show("Not supported directory!");
                 return false;
@@ -118,7 +114,7 @@ namespace UIApplication
             }
         }
 
-        public void SetToListBox(List<string> list,ListBox listBox)
+        public void SetToListBox(List<string> list, ListBox listBox)
         {
             foreach (var value in list)
             {
@@ -248,5 +244,13 @@ namespace UIApplication
             listBoxTypesFields.Items.Clear();
             listBoxTypesProperty.Items.Clear();
         }
+    }
+    internal static class NativeMethods
+    {
+        [DllImport("user32.dll", SetLastError = true)]
+        internal static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
+        [DllImport("user32.dll")]
+        internal static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
     }
 }

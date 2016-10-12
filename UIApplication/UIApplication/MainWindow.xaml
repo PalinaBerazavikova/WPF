@@ -6,22 +6,22 @@
         xmlns:local="clr-namespace:UIApplication"
         mc:Ignorable="d"
         ResizeMode="NoResize" Loaded="Window_Loaded"
-        Title="MainWindow" Height="575.392" Width="1011.586">
-    <Grid>
-        <Button x:Name="CloseButton" Content="Close" HorizontalAlignment="Left" VerticalAlignment="Top" Width="123" Height="34" Margin="846,485,0,0" Click="CloseButton_Click"/>
+        Title="Working with dll filew" Height="467.392" Width="1007.586" Foreground="#FF5FB3DA" Background="#FFCCE5F1">
+    <Grid Margin="0,0,4,0" Height="422" VerticalAlignment="Top">
+        <Button x:Name="CloseButton" Content="Close" HorizontalAlignment="Left" VerticalAlignment="Top" Width="123" Height="34" Margin="856,377,0,0" Click="CloseButton_Click"/>
         <Button x:Name="ChooseDirectoryButton" Content="Choose directory" HorizontalAlignment="Left" VerticalAlignment="Top" Width="98" Margin="10,10,0,0" Height="28" Click="ChooseDirectoryButton_Click"/>
-        <TextBox x:Name="DirectoryPathTextBox"  HorizontalAlignment="Left" Height="20" Margin="130,0,0,508" TextWrapping="Wrap"  VerticalAlignment="Bottom" Width="492"  />
+        <TextBox x:Name="DirectoryPathTextBox"  HorizontalAlignment="Left" Margin="130,18,0,0" TextWrapping="Wrap" Width="492" Height="20" VerticalAlignment="Top"  />
         <Button x:Name="ShowButton" Content="Show Files" HorizontalAlignment="Left" Height="25" Margin="20,49,0,0" VerticalAlignment="Top" Width="75" Click="ShowButton_Click"/>
-        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="278" VerticalAlignment="Top" Width="213" Margin="130,66,0,0" SelectionChanged="listBox_SelectionChanged"/>
-        <ListBox x:Name="listBoxTypes" HorizontalAlignment="Left" Height="278" VerticalAlignment="Top" Width="261" Margin="361,66,0,0" SelectionChanged=" listBoxTypes_SelectionChanged"/>
+        <ListBox x:Name="listBox" HorizontalAlignment="Left" Height="278" VerticalAlignment="Top" Width="213" Margin="130,66,0,0" SelectionChanged="listBox_SelectionChanged" Cursor="Hand"/>
+        <ListBox x:Name="listBoxTypes" HorizontalAlignment="Left" Height="278" VerticalAlignment="Top" Width="261" Margin="361,66,0,0" SelectionChanged=" listBoxTypes_SelectionChanged" Cursor="Hand"/>
         <Label x:Name="dllFiles" Content="dll files" HorizontalAlignment="Left" Margin="204,344,0,0" VerticalAlignment="Top" Width="72"/>
         <Label x:Name="types_of_selected_file" Content="types of selected file" HorizontalAlignment="Left" Margin="435,344,0,0" VerticalAlignment="Top" Width="119"/>
-        <ListBox x:Name="listBoxTypesProperty" HorizontalAlignment="Left" Height="66" VerticalAlignment="Top" Width="213" Margin="641,66,0,0" SelectionChanged="listBox_SelectionChanged"/>
+        <ListBox x:Name="listBoxTypesProperty" HorizontalAlignment="Left" Height="66" VerticalAlignment="Top" Width="213" Margin="641,66,0,0" />
         <Label x:Name="methods" Content="Methods" HorizontalAlignment="Left" Margin="721,344,0,0" VerticalAlignment="Top" Width="61" Height="35"/>
         <Label x:Name="properties" Content="Properties" HorizontalAlignment="Left" Margin="712,132,0,0" VerticalAlignment="Top" Width="70" Height="35"/>
-        <ListBox x:Name="listBoxTypesFields" HorizontalAlignment="Left" Height="66" VerticalAlignment="Top" Width="213" Margin="641,167,0,0" SelectionChanged="listBox_SelectionChanged"/>
+        <ListBox x:Name="listBoxTypesFields" HorizontalAlignment="Left" Height="66" VerticalAlignment="Top" Width="213" Margin="641,167,0,0" />
         <Label x:Name="fields" Content="Fields" HorizontalAlignment="Left" Margin="728,238,0,0" VerticalAlignment="Top" Width="54" Height="35" RenderTransformOrigin="3.154,0.429"/>
-        <ListBox x:Name="listBoxTypesMethods" HorizontalAlignment="Left" Height="66" VerticalAlignment="Top" Width="213" Margin="641,278,0,0" SelectionChanged="listBox_SelectionChanged"/>
+        <ListBox x:Name="listBoxTypesMethods" HorizontalAlignment="Left" Height="66" VerticalAlignment="Top" Width="213" Margin="641,278,0,0" />
         <CheckBox x:Name="checkBoxProperty" Content="Properties" HorizontalAlignment="Left" Margin="641,18,0,0" VerticalAlignment="Top" IsChecked="False" Unchecked="checkBoxProperty_Unchecked" Checked="checkBoxProperty_Checked" />
         <CheckBox x:Name="checkBoxMethod" Content="Methods" HorizontalAlignment="Left" Margin="787,18,0,0" VerticalAlignment="Top" IsChecked="False" Unchecked="checkBoxMethod_Unchecked" Checked="checkBoxMethod_Checked" />
         <CheckBox x:Name="checkBoxFields" Content="Fields" HorizontalAlignment="Left" Margin="728,18,0,0" VerticalAlignment="Top" IsChecked="False" Unchecked="checkBoxFields_Unchecked" Checked="checkBoxFields_Checked" />
