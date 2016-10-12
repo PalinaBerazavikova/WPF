@@ -33,6 +33,7 @@ namespace UIApplication
         private string PathToSelectedType;
         private List<string> Files = new List<string>();
         private List<string> ListOfTypes = new List<string>();
+        Assembly Lib;
         [DllImport("user32.dll", SetLastError = true)]
         private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
 
@@ -134,9 +135,6 @@ namespace UIApplication
 
         private void listBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            listBoxTypesMethods.Items.Clear();
-            listBoxTypesFields.Items.Clear();
-            listBoxTypesProperty.Items.Clear();
             try
             {
                 if (listBox.SelectedItem != null)
@@ -157,16 +155,14 @@ namespace UIApplication
             }
 
         }
-
-        private void listBoxTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ShowItems()
         {
+            listBoxTypesMethods.Items.Clear();
+            listBoxTypesFields.Items.Clear();
+            listBoxTypesProperty.Items.Clear();
             if (listBoxTypes.SelectedItem != null)
             {
-                listBoxTypesMethods.Items.Clear();
-                listBoxTypesFields.Items.Clear();
-                listBoxTypesProperty.Items.Clear();
-                Assembly lib = Assembly.LoadFile(PathToSelectedType);
-                var type = lib.GetTypes().Where(t => t.FullName == listBoxTypes.SelectedItem.ToString()).FirstOrDefault();
+                var type = Lib.GetTypes().Where(t => t.FullName == listBoxTypes.SelectedItem.ToString()).FirstOrDefault();
                 if (checkBoxMethod.IsChecked == true)
                 {
                     var ListTypeMethodsName = type.GetMethods().Select(m => m.Name).ToList();
@@ -192,6 +188,18 @@ namespace UIApplication
                     }
                 }
             }
+            
+        }
+        private void listBoxTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (listBoxTypes.SelectedItem != null)
+            {
+                listBoxTypesMethods.Items.Clear();
+                listBoxTypesFields.Items.Clear();
+                listBoxTypesProperty.Items.Clear();
+                Lib = Assembly.LoadFile(PathToSelectedType);
+                ShowItems();
+            }
 
         }
         private void setValues(Type type, System.Windows.Controls.ListBox list, System.Windows.Controls.CheckBox checkBox)
@@ -210,6 +218,31 @@ namespace UIApplication
         }
         private void checkBoxProperty_Checked(object sender, RoutedEventArgs e)
         {
+            ShowItems();
+        }
+
+        private void checkBoxFields_Checked(object sender, RoutedEventArgs e)
+        {
+            ShowItems();
+        }
+
+        private void checkBoxMethod_Checked(object sender, RoutedEventArgs e)
+        {
+            ShowItems();
+        }
+        private void checkBoxProperty_Unchecked(object sender, RoutedEventArgs e)
+        {
+            listBoxTypesProperty.Items.Clear();
+        }
+
+        private void checkBoxFields_Unchecked(object sender, RoutedEventArgs e)
+        {
+            listBoxTypesFields.Items.Clear();
+        }
+
+        private void checkBoxMethod_Unchecked(object sender, RoutedEventArgs e)
+        {
+            listBoxTypesMethods.Items.Clear();
 
         }
     }
